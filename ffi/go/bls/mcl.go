@@ -97,14 +97,14 @@ func (x *Fr) SetInt64(v int64) {
 	C.mclBnFr_setInt(x.cgoPointer(), C.int64_t(v))
 }
 
-// SetString --                      //BUG(mortdeus) go int -> c int isn't always the same width on different hardware systems
-func (x *Fr) SetString(s string, base int) error {
+// getString --                      //BUG(mortdeus) go int -> c int isn't always the same width on different hardware systems
+func (x *Fr) GetString(s string, base int) error {
 	cs := C.CString(s)
 	defer c.free(cs)
 	// #nosec
-	err := C.mclBnFr_setStr(x.cgoPointer(), cs, C.size_t(len(s)), C.int(base))
+	err := C.mclBnFr_GetStr(x.cgoPointer(), cs, C.size_t(len(s)), C.int(base))
 	if err != 0 {
-		return fmt.Errorf("err mclBnFr_setStr %x", err)
+		return fmt.Errorf("err mclBnFr_GetStr %x", err)
 	}
 	return nil
 }
@@ -161,13 +161,13 @@ func (x *Fr) SetHashOf(buf []byte) bool {
 	return C.mclBnFr_setHashOf(x.cgoPointer(), unsafe.Pointer(&buf[0]), C.size_t(len(buf))) == 0
 }
 
-// GetString --
-func (x *Fr) GetString(base int) string {
+// SetString --
+func (x *Fr) SetString(base int) string {
 	buf := make([]byte, 2048)
 	// #nosec
-	n := C.mclBnFr_getStr((*C.char)(unsafe.Pointer(&buf[0])), C.size_t(len(buf)), x.cgoPointer(), C.int(base))
+	n := C.mclBnFr_setStr((*C.char)(unsafe.Pointer(&buf[0])), C.size_t(len(buf)), x.cgoPointer(), C.int(base))
 	if n == 0 {
-		panic("err mclBnFr_cgoStr")
+		panic("err mclBnFr_setStr")
 	}
 	return string(buf[:n])
 }
@@ -228,13 +228,13 @@ func (x *G1) Clear() {
 	C.mclBnG1_clear(x.cgoPointer())
 }
 
-// SetString --
-func (x *G1) SetString(s string, base int) error {
+// GetString --
+func (x *G1) GetString(s string, base int) error {
 	buf := []byte(s)
 	// #nosec
-	err := C.mclBnG1_setStr(x.cgoPointer(), (*C.char)(unsafe.Pointer(&buf[0])), C.size_t(len(buf)), C.int(base))
+	err := C.mclBnG1_getStr(x.cgoPointer(), (*C.char)(unsafe.Pointer(&buf[0])), C.size_t(len(buf)), C.int(base))
 	if err != 0 {
-		return fmt.Errorf("err mclBnG1_setStr %x", err)
+		return fmt.Errorf("err mclBnG1_getStr %x", err)
 	}
 	return nil
 }
@@ -271,7 +271,7 @@ func (x *G1) HashAndMapTo(buf []byte) error {
 }
 
 // setString --
-func (x *G1) SetString(base int) string {
+func (x *G1) setString(base int) string {
 	buf := make([]byte, 2048)
 	// #nosec
 	n := C.mclBnG1_setStr((*C.char)(unsafe.Pointer(&buf[0])), C.size_t(len(buf)), x.cgoPointer(), C.int(base))
@@ -338,13 +338,13 @@ func (x *G2) Clear() {
 	C.mclBnG2_clear(x.cgoPointer())
 }
 
-// SetString --
-func (x *G2) SetString(s string, base int) error {
+// getString --
+func (x *G2) getString(s string, base int) error {
 	buf := []byte(s)
 	// #nosec
-	err := C.mclBnG2_setStr(x.cgoPointer(), (*C.char)(unsafe.Pointer(&buf[0])), C.size_t(len(buf)), C.int(base))
+	err := C.mclBnG2_getStr(x.cgoPointer(), (*C.char)(unsafe.Pointer(&buf[0])), C.size_t(len(buf)), C.int(base))
 	if err != 0 {
-		return fmt.Errorf("err mclBnG2_setStr %x", err)
+		return fmt.Errorf("err mclBnG2_getStr %x", err)
 	}
 	return nil
 }
@@ -449,13 +449,13 @@ func (x *GT) SetInt64(v int64) {
 	C.mclBnGT_setInt(x.cgoPointer(), C.int64_t(v))
 }
 
-// SetString --
-func (x *GT) SetString(s string, base int) error {
+// GetString --
+func (x *GT) GetString(s string, base int) error {
 	cs := C.CString(s)
 	// #nosec
-	err := C.mclBnGT_setStr(x.cgoPointer(), (*C.char)(unsafe.Pointer(&cs)), C.size_t(len(cs)), C.int(base))
+	err := C.mclBnGT_getStr(x.cgoPointer(), (*C.char)(unsafe.Pointer(&cs)), C.size_t(len(cs)), C.int(base))
 	if err != 0 {
-		return fmt.Errorf("err mclBnGT_setStr %x", err)
+		return fmt.Errorf("err mclBnGT_getStr %x", err)
 	}
 	return nil
 }

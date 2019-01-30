@@ -38,7 +38,7 @@ typedef struct {
 } blsPublicKey;
 */
 type PublicKey struct{
-	v C.mclBnG1
+	v G1
 }
 
 /*
@@ -50,8 +50,8 @@ typedef struct {
 #endif
 } blsSignature;
 */
-type Signature struct{
-	v C.mclBnG2
+type Sign struct{
+	v G2 
 }
 /*
 #ifdef BLS_SWAP_G
@@ -86,7 +86,7 @@ const ElemNum = 2;
 func (bn *Bn) GetString(ioMode int) (string, int){
 		cs := C.CString(string(make([]byte, 1028)))
 		defer C.free(unsafe.Pointer(s))
-		n := C.mclBnG1_getStr(cs, len(cs), &bn.G, ioMode)
+		n := C.mclBnG1_getStr(cs, len(cs), &bn.g1.cgoPointer, ioMode)
 		return string(cs), n
 
 
@@ -103,7 +103,7 @@ func (bn *Bn) GetString(ioMode int) (string, int){
 func (bn *Bn) SetString(s string, ioMode int) int{
 		cs := C.CString(s)
 		defer C.free(unsafe.Pointer(s))
-		C.mclBnG1_setStr(cs, len(s), &bn.G, ioMode)
+		C.mclBnG1_setStr(bn.g1.cgoPointer, cs, len(s), ioMode)
 
 
 }

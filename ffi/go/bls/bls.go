@@ -20,8 +20,8 @@ import "unsafe"
 import "io"
 
 type Bn struct{
-	G1 C.mclBnG1
-	G2 C.mclBnG2
+		g1 G1
+		g2 G2
 }
 
 // Init --
@@ -186,10 +186,7 @@ func (sec *SecretKey) GetPop() (sign *Sign) {
 	return sign
 }
 
-// PublicKey --
-type PublicKey struct {
-	v G2
-}
+
 
 // getPointer --
 func (pub *PublicKey) getPointer() (p *C.blsPublicKey) {
@@ -250,9 +247,7 @@ func (pub *PublicKey) Recover(pubVec []PublicKey, idVec []ID) error {
 }
 
 // Sign  --
-type Sign struct {
-	v G1
-}
+
 
 // getPointer --
 func (sign *Sign) getPointer() (p *C.blsSignature) {

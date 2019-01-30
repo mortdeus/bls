@@ -38,7 +38,7 @@ typedef struct {
 } blsPublicKey;
 */
 type PublicKey struct{
-	v C.mclBnG1
+	v G1 
 }
 
 /*
@@ -50,8 +50,8 @@ typedef struct {
 #endif
 } blsSignature;
 */
-type Signature struct{
-	v C.mclBnG2
+type Sign struct{
+	v G2
 }
 /*
 #ifdef BLS_SWAP_G
