@@ -102,7 +102,7 @@ func (x *Fr) GetString(s string, base int) error {
 	cs := C.CString(s)
 	defer c.free(cs)
 	// #nosec
-	err := C.mclBnFr_GetStr(x.cgoPointer(), cs, C.size_t(len(s)), C.int(base))
+	err := C.mclBnFr_getStr(x.cgoPointer(), cs, C.size_t(len(s)), C.int(base))
 	if err != 0 {
 		return fmt.Errorf("err mclBnFr_GetStr %x", err)
 	}

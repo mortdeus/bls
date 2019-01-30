@@ -1,4 +1,4 @@
-// +build swapg
+// +build swap
 
 package bls
 
@@ -60,7 +60,7 @@ BLS_DLL_API void blsGetGeneratorOfG1(blsPublicKey *pub);
 #else
 */
 func GetGeneratorOfG(pkey *PublicKey){
-	C.blsGetGeneratorOfG1(&pkey.v)
+	//	C.blsGetGeneratorOfG1(pkey.v.cgoPointer())
 }
 /*
 // get a generator of G2
