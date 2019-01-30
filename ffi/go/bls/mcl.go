@@ -30,18 +30,18 @@ const IoSerializeHexStr = C.MCLBN_IO_SERIALIZE_HEX_STR
 
 // getfrunitsize() --
 func Getfrunitsize() int {
-	return int(C.mclBn_fr_unit_size)
+	return int(C.MCLBN_FR_UNIT_SIZE)
 }
 
 // getfpunitsize() --
 // same as getmaxopunitsize()
 func Getfpunitsize() int {
-	return int(C.mclBn_fp_unit_size)
+	return int(C.MCLBN_FP_UNIT_SIZE)
 }
 
 // getmaxopunitsize --
 func Getmaxopunitsize() int {
-	return int(C.mclBn_fp_unit_size)
+	return int(C.MCLBN_FP_UNIT_SIZE)
 }
 
 // getopunitsize --
