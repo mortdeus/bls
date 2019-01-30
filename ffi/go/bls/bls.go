@@ -2,12 +2,12 @@ package bls
 
 /*
 #cgo bn256 CFLAGS:-DMCLBN_FP_UNIT_SIZE=4
-#cgo bn256 LDFLAGS:-lbls256
+#cgo bn256 LDFLAGS:-L${SRCDIR}/libs -lbls256
 #cgo bn384 CFLAGS:-DMCLBN_FP_UNIT_SIZE=6
-#cgo bn384 LDFLAGS:-lbls384
+#cgo bn384 LDFLAGS:-L${SRCDIR}/libs -lbls384
 #cgo bn384_256 CFLAGS:-DMCLBN_FP_UNIT_SIZE=6 -DMCLBN_FR_UNIT_SIZE=4
-#cgo bn384_256 LDFLAGS:-lbls384_256
-#cgo LDFLAGS:-lbls384
+#cgo bn384_256 LDFLAGS:-L${SRCDIR}/libs -lbls384_256
+#cgo LDFLAGS:-L${SRCDIR}/libs -lbls384
 #cgo LDFLAGS:-lcrypto -lgmp -lgmpxx -lstdc++
 #include "config.h"
 typedef unsigned int (*ReadRandFunc)(void *, void *, unsigned int);

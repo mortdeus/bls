@@ -4,12 +4,12 @@ package bls
 
 /*
 #cgo bn256 CFLAGS:-DMCLBN_FP_UNIT_SIZE=4 -DMCLBN_COMPILED_TIME_VAR=144 
-#cgo bn256 LDFLAGS:-lbls256 
+#cgo bn256 LDFLAGS:-L${SRCDIR}/libs -lbls256 
 #cgo bn384 CFLAGS:-DMCLBN_FP_UNIT_SIZE=6 -DMCLBN_COMPILED_TIME_VAR=166  
-#cgo bn384 LDFLAGS:-lbls384
-#cgo bn384_256 CFLAGS:-DMCLBN_FP_UNIT_SIZE=6 -DMCLBN_FR_UNIT_SIZE=4 -DMCLBN_COMPILED_TIME_VAR=146  
-#cgo bn384_256 LDFLAGS:-lbls384_256
-#cgo LDFLAGS:-lbls384
+#cgo bn384 LDFLAGS:-L${SRCDIR}/libs -lbls384
+#cgo bn384_256 CFLAGS:-L${SRCDIR}/libs -DMCLBN_FP_UNIT_SIZE=6 -DMCLBN_FR_UNIT_SIZE=4 -DMCLBN_COMPILED_TIME_VAR=146  
+#cgo bn384_256 LDFLAGS:-L${SRCDIR}/libs -lbls384_256
+#cgo LDFLAGS:-L${SRCDIR}/libs -lbls384
 #cgo LDFLAGS:-lcrypto -lgmp -lgmpxx -lstdc++
 #include "config.h"
 #include <bls/bls.h>
