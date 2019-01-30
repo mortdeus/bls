@@ -21,7 +21,7 @@ import "io"
 
 type Bn struct{
 	G1 C.mclBnG1
-	G2 mclBnG2
+	G2 C.mclBnG2
 }
 
 // Init --

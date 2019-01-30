@@ -53,7 +53,7 @@ func Getopunitsize() int {
 func Getcurveorder() string {
 	buf := make([]byte, 1024)
 	// #nosec
-	n := c.mclbn_getcurveorder((*c.char)(unsafe.pointer(&buf[0])), c.size_t(len(buf)))
+	n := c.mclbn_getcurveorder((*c.char)(unsafe.Pointer(&buf[0])), c.size_t(len(buf)))
 	if n == 0 {
 		panic("implementation err. size of buf is small")
 	}
@@ -65,7 +65,7 @@ func Getcurveorder() string {
 func Getfieldorder() string {
 	buf := make([]byte, 1024)
 	// #nosec
-	n := c.mclbn_getfieldorder((*c.char)(unsafe.pointer(&buf[0])), c.size_t(len(buf)))
+	n := c.mclbn_getfieldorder((*c.char)(unsafe.Pointer(&buf[0])), c.size_t(len(buf)))
 	if n == 0 {
 		panic("implementation err. size of buf is small")
 	}
