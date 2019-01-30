@@ -99,9 +99,10 @@ func (x *Fr) SetInt64(v int64) {
 
 // SetString --                      //BUG(mortdeus) go int -> c int isn't always the same width on different hardware systems
 func (x *Fr) SetString(s string, base int) error {
-	buf := C.Cstring(s)
+	cs := C.CString(s)
+	defer c.free(cs)
 	// #nosec
-	err := C.mclBnFr_setStr(x.cgoPointer(), (*C.char)(unsafe.Pointer(&buf[0])), C.size_t(len(s)), C.int(base))
+	err := C.mclBnFr_setStr(x.cgoPointer(), cs, C.size_t(len(s)), C.int(base))
 	if err != 0 {
 		return fmt.Errorf("err mclBnFr_setStr %x", err)
 	}
@@ -269,13 +270,13 @@ func (x *G1) HashAndMapTo(buf []byte) error {
 	return nil
 }
 
-// cgoString --
-func (x *G1) cgoString(base int) string {
+// setString --
+func (x *G1) SetString(base int) string {
 	buf := make([]byte, 2048)
 	// #nosec
-	n := C.mclBnG1_cgoStr((*C.char)(unsafe.Pointer(&buf[0])), C.size_t(len(buf)), x.cgoPointer(), C.int(base))
+	n := C.mclBnG1_setStr((*C.char)(unsafe.Pointer(&buf[0])), C.size_t(len(buf)), x.cgoPointer(), C.int(base))
 	if n == 0 {
-		panic("err mclBnG1_cgoStr")
+		panic("err mclBnG1_setStr")
 	}
 	return string(buf[:n])
 }
@@ -378,13 +379,13 @@ func (x *G2) HashAndMapTo(buf []byte) error {
 	return nil
 }
 
-// cgoString --
-func (x *G2) cgoString(base int) string {
+// SetString --
+func (x *G2) SetString(base int) string {
 	buf := make([]byte, 2048)
 	// #nosec
-	n := C.mclBnG2_cgoStr((*C.char)(unsafe.Pointer(&buf[0])), C.size_t(len(buf)), x.cgoPointer(), C.int(base))
+	n := C.mclBnG2_setStr((*C.char)(unsafe.Pointer(&buf[0])), C.size_t(len(buf)), x.cgoPointer(), C.int(base))
 	if n == 0 {
-		panic("err mclBnG2_cgoStr")
+		panic("err mclBnG2_SetStr")
 	}
 	return string(buf[:n])
 }
@@ -485,12 +486,12 @@ func (x *GT) IsOne() bool {
 }
 
 // cgoString --
-func (x *GT) cgoString(base int) string {
+func (x *GT) SetString(base int) string {
 	buf := make([]byte, 2048)
 	// #nosec
-	n := C.mclBnGT_cgoStr((*C.char)(unsafe.Pointer(&buf[0])), C.size_t(len(buf)), x.cgoPointer(), C.int(base))
+	n := C.mclBnGT_setStr((*C.char)(unsafe.Pointer(&buf[0])), C.size_t(len(buf)), x.cgoPointer(), C.int(base))
 	if n == 0 {
-		panic("err mclBnGT_cgoStr")
+		panic("err mclBnGT_setStr")
 	}
 	return string(buf[:n])
 }
@@ -557,8 +558,8 @@ func MillerLoop(out *GT, x *G1, y *G2) {
 }
 
 // cgoUint64NumToPrecompute --
-func cgoUint64NumToPrecompute() int {
-	return int(C.mclBn_cgoUint64NumToPrecompute())
+func SetUint64NumToPrecompute() int {
+	return int(C.mclBn_setUint64NumToPrecompute())
 }
 
 // PrecomputeG2 --
