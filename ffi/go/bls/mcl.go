@@ -84,7 +84,7 @@ type Fr struct{
 // cgoPointer --
 func (x *Fr) cgoPointer() (p *C.mclBnFr) {
 	// #nosec
-	return (*C.mclBnFr)(unsafe.Pointer(Fr.v)) 
+	return (*C.mclBnFr)(unsafe.Pointer(x.v)) 
 }
 
 // Clear --
@@ -103,7 +103,7 @@ func (x *Fr) SetInt64(v int64) {
 // getString --                      //BUG(mortdeus) go int -> c int isn't always the same width on different hardware systems
 func (x *Fr) SetString(s string, base int) error {
 	cs := C.CString(s)
-	defer C.free(cs)
+	defer C.free(unsafe.Pointer(cs))
 	// #nosec
 	err := C.mclBnFr_setStr(x.cgoPointer(), cs, C.size_t(len(s)), C.int(base))
 	if err != 0 {
