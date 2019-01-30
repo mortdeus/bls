@@ -123,8 +123,18 @@ test_go384: ffi/go/bls/bls.go ffi/go/bls/bls_test.go $(BLS384_SLIB)
 	cd ffi/go/bls && env PATH=$(PATH_VAL) go test -tags bn384 .
 test_go384_256: ffi/go/bls/bls.go ffi/go/bls/bls_test.go $(BLS384_256_SLIB)
 	cd ffi/go/bls && env PATH=$(PATH_VAL) go test -tags bn384_256 .
+test_go256_swap: ffi/go/bls/bls.go ffi/go/bls/bls_test.go $(BLS256_SLIB)
+	cd ffi/go/bls && env PATH=$(PATH_VAL) go test -tags="bn256 swap" .
+test_go384_swap: ffi/go/bls/bls.go ffi/go/bls/bls_test.go $(BLS384_SLIB)
+	cd ffi/go/bls && env PATH=$(PATH_VAL) go test -tags="bn384 swap" .
+test_go384_256_swap: ffi/go/bls/bls.go ffi/go/bls/bls_test.go $(BLS384_256_SLIB)
+	cd ffi/go/bls && env PATH=$(PATH_VAL) go test -tags="bn384_256 swap" .
 
 test_go:
+	$(MAKE) test_go256
+	$(MAKE) test_go384
+	$(MAKE) test_go384_256
+test_go_swap:
 	$(MAKE) test_go256
 	$(MAKE) test_go384
 	$(MAKE) test_go384_256
