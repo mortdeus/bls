@@ -95,7 +95,7 @@ func (pub *PublicKey) Set(mpk []PublicKey, id *ID) error {
 // Recover --
 func (pub *PublicKey) Recover(pubVec []PublicKey, idVec []ID) error {
 	// #nosec
-	return G2LagrangeInterpolation(&pub.v, *(*[]Fr)(unsafe.Pointer(&idVec)), *(*[]G2)(unsafe.Pointer(&pubVec)))
+	return G1LagrangeInterpolation(&pub.v, *(*[]Fr)(unsafe.Pointer(&idVec)), *(*[]G1)(unsafe.Pointer(&pubVec)))
 }
 
 /*

@@ -451,7 +451,7 @@ func (x *GT) SetInt64(v int64) {
 }
 
 // SetString --
-func (x *GT) setString(s string, base int) error {
+func (x *GT) SetString(s string, base int) error {
 	cs := C.CString(s)
 	// #nosec
 	err := C.mclBnGT_setStr(x.cgoPointer(), (*C.char)(unsafe.Pointer(&cs)), C.size_t(len(cs)), C.int(base))

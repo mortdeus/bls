@@ -163,7 +163,7 @@ func (sign *Sign) Add(rhs *Sign) {
 // Recover --
 func (sign *Sign) Recover(signVec []Sign, idVec []ID) error {
 	// #nosec
-	return G1LagrangeInterpolation(&sign.v, *(*[]Fr)(unsafe.Pointer(&idVec)), *(*[]G1)(unsafe.Pointer(&signVec)))
+	return G2LagrangeInterpolation(&sign.v, *(*[]Fr)(unsafe.Pointer(&idVec)), *(*[]G2)(unsafe.Pointer(&signVec)))
 }
 
 // Verify --
@@ -183,14 +183,14 @@ func (sign *Sign) VerifyHash(pub *PublicKey, hash []byte) bool {
 }
 // VerifyAggregateHashes --
 func (sign *Sign) VerifyAggregateHashes(pubVec []PublicKey, hash [][]byte) bool {
-	hashByte := GetOpUnitSize() * 8
+	hashByte := Getopunitsize() * 8
 	n := len(hash)
 	h := make([]byte, n*hashByte)
 	for i := 0; i < n; i++ {
 		hn := len(hash[i])
 		copy(h[i*hashByte:(i+1)*hashByte], hash[i][0:Min(hn, hashByte)])
 	}
-	return C.blsVerifyAggregatedHashes(sign.getPointer(), pubVec[0].getPointer(), unsafe.Pointer(&h[0]), C.size_t(hashByte), C.size_t(n)) == 1
+	return C.blsVerifyAggregatedHashes(sign.getPointer, pubVec[0].getPointer(), unsafe.Pointer(&h[0]), C.size_t(hashByte), C.size_t(n)) == 1
 }
 /*
 #ifdef BLS_SWAP_G
@@ -222,11 +222,11 @@ const ElemNum = 2;
 		size_t n = mclBnG2_getStr(&str[0], str.size(), &self_.v, ioMode);
 #endif
 */
-func (bn *Bn) GetString(ioMode int) (string, int){
+func (bn *Bn) GetString(ioMode int) (string, uint){
 		cs := C.CString(string(make([]byte, 1028)))
-		defer C.free(unsafe.Pointer(s))
-		n := C.mclBnG1_getStr(cs, len(cs), &bn.g1.cgoPointer, ioMode)
-		return string(cs), n
+		defer C.free(unsafe.Pointer(cs))
+		n := C.mclBnG1_getStr(cs, 1028, bn.g1.cgoPointer(), C.int(ioMode))
+		return C.GoString(cs), uint(n)
 
 
 }
@@ -241,6 +241,6 @@ func (bn *Bn) GetString(ioMode int) (string, int){
 
 func (bn *Bn) SetString(s string, ioMode int) int{
 		cs := C.CString(s)
-		defer C.free(unsafe.Pointer(s))
-		C.mclBnG1_setStr(bn.g1.cgoPointer, cs, len(s), ioMode)
+		defer C.free(unsafe.Pointer(cs))
+		C.mclBnG1_setStr(bn.g1.cgoPointer(), cs, len(s), C.int(ioMode))
 }
