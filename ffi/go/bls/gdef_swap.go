@@ -190,7 +190,7 @@ func (sign *Sign) VerifyAggregateHashes(pubVec []PublicKey, hash [][]byte) bool 
 		hn := len(hash[i])
 		copy(h[i*hashByte:(i+1)*hashByte], hash[i][0:Min(hn, hashByte)])
 	}
-	return C.blsVerifyAggregatedHashes(sign.getPointer, pubVec[0].getPointer(), unsafe.Pointer(&h[0]), C.size_t(hashByte), C.size_t(n)) == 1
+	return C.blsVerifyAggregatedHashes(sign.getPointer(), pubVec[0].getPointer(), unsafe.Pointer(&h[0]), C.size_t(hashByte), C.size_t(n)) == 1
 }
 /*
 #ifdef BLS_SWAP_G
@@ -242,5 +242,5 @@ func (bn *Bn) GetString(ioMode int) (string, uint){
 func (bn *Bn) SetString(s string, ioMode int) int{
 		cs := C.CString(s)
 		defer C.free(unsafe.Pointer(cs))
-		C.mclBnG1_setStr(bn.g1.cgoPointer(), cs, len(s), C.int(ioMode))
+		return int(C.mclBnG1_setStr(bn.g1.cgoPointer(), cs, C.ulong(len(s)), C.int(ioMode)))
 }
