@@ -233,7 +233,7 @@ func (x *G1) Clear() {
 func (x *G1) SetString(s string, base int) error {
 	buf := []byte(s)
 	// #nosec
-	err := C.mclBnG1_SetStr(x.cgoPointer(), (*C.char)(unsafe.Pointer(&buf[0])), C.size_t(len(buf)), C.int(base))
+	err := C.mclBnG1_setStr(x.cgoPointer(), (*C.char)(unsafe.Pointer(&buf[0])), C.size_t(len(buf)), C.int(base))
 	if err != 0 {
 		return fmt.Errorf("err mclBnG1_setStr %x", err)
 	}
