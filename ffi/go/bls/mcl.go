@@ -6,6 +6,7 @@ package bls
 #cgo bn384_256 CFLAGS:-DMCLBN_FP_UNIT_SIZE=6 -DMCLBN_FR_UNIT_SIZE=4
 #include "config.h"
 #include <mcl/bn.h> 
+#cgo LDFLAGS:-lmcl
 */
 import "C"
 import "fmt"
