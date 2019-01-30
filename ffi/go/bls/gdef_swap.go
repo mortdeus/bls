@@ -199,6 +199,7 @@ BLS_DLL_API void blsGetGeneratorOfG1(blsPublicKey *pub);
 #else
 */
 func GetGeneratorOfG(pkey *PublicKey){
+	panic("unimplemented")
 	//	C.blsGetGeneratorOfG1(pkey.v.cgoPointer())
 }
 /*

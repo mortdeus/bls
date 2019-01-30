@@ -188,7 +188,7 @@ func (sign *Sign) VerifyAggregateHashes(pubVec []PublicKey, hash [][]byte) bool 
 	h := make([]byte, n*hashByte)
 	for i := 0; i < n; i++ {
 		hn := len(hash[i])
-		copy(h[i*hashByte:(i+1)*hashByte], hash[i][0:Min(hn, hashByte)])
+		copy(h[i*hashByte:(i+1)*hashByte, hash[i][0:Min(hn, hashByte)])
 	}
 	return C.blsVerifyAggregatedHashes(sign.getPointer(), pubVec[0].getPointer(), unsafe.Pointer(&h[0]), C.size_t(hashByte), C.size_t(n)) == 1
 }
@@ -199,7 +199,8 @@ BLS_DLL_API void blsGetGeneratorOfG1(blsPublicKey *pub);
 #else
 */
 func GetGeneratorOfG(pkey *PublicKey){
-	C.blsGetGeneratorOfG1(pkey.v.cgoPointer())
+	panic("unimplemented")
+	//C.blsGetGeneratorOfG1(pkey.v.cgoPointer())
 }
 /*
 // get a generator of G2
