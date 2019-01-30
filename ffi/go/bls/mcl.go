@@ -29,30 +29,30 @@ const BLS12_381 = C.MCL_BLS12_381
 const IoSerializeHexStr = C.MCLBN_IO_SERIALIZE_HEX_STR
 
 // getfrunitsize() --
-func Getfrunitsize() int {
+func GetFrUnitSize() int {
 	return int(C.MCLBN_FR_UNIT_SIZE)
 }
 
 // getfpunitsize() --
 // same as getmaxopunitsize()
-func Getfpunitsize() int {
+func GetFpUnitSize() int {
 	return int(C.MCLBN_FP_UNIT_SIZE)
 }
 
 // getmaxopunitsize --
-func Getmaxopunitsize() int {
+func GetMaxOpUnitSize() int {
 	return int(C.MCLBN_FP_UNIT_SIZE)
 }
 
 // getopunitsize --
 // the length of fr is getopunitsize() * 8 bytes
-func Getopunitsize() int {
+func GetOpUnitSize() int {
 	return int(C.mclBn_getOpUnitSize())
 }
 
 // getcurveorder --
 // return the order of g1
-func Getcurveorder() string {
+func GetCurveOrder() string {
 	buf := make([]byte, 1024)
 	// #nosec
 	n := C.mclBn_getCurveOrder((*C.char)(unsafe.Pointer(&buf[0])), C.size_t(len(buf)))
@@ -64,7 +64,7 @@ func Getcurveorder() string {
 
 // getfieldorder --
 // return the characteristic of the field where a curve is defined
-func Getfieldorder() string {
+func GetFieldOrder() string {
 	buf := make([]byte, 1024)
 	// #nosec
 	n := C.mclBn_getFieldOrder((*C.char)(unsafe.Pointer(&buf[0])), C.size_t(len(buf)))
@@ -84,7 +84,7 @@ type Fr struct{
 // cgoPointer --
 func (x *Fr) cgoPointer() (p *C.mclBnFr) {
 	// #nosec
-	return (*C.mclBnFr)(&x.v) 
+	return (*C.mclBnFr)(&x.v)gi 
 }
 
 // Clear --
