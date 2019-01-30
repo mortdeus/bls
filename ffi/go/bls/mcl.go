@@ -30,24 +30,24 @@ const IoSerializeHexStr = C.MCLBN_IO_SERIALIZE_HEX_STR
 
 // getfrunitsize() --
 func Getfrunitsize() int {
-	return int(C.mclbn_fr_unit_size)
+	return int(C.mclBn_fr_unit_size)
 }
 
 // getfpunitsize() --
 // same as getmaxopunitsize()
 func Getfpunitsize() int {
-	return int(C.mclbn_fp_unit_size)
+	return int(C.mclBn_fp_unit_size)
 }
 
 // getmaxopunitsize --
 func Getmaxopunitsize() int {
-	return int(C.mclbn_fp_unit_size)
+	return int(C.mclBn_fp_unit_size)
 }
 
 // getopunitsize --
 // the length of fr is getopunitsize() * 8 bytes
 func Getopunitsize() int {
-	return int(C.mclbn_getOpUnitSize())
+	return int(C.mclBn_getOpUnitSize())
 }
 
 // getcurveorder --
@@ -55,7 +55,7 @@ func Getopunitsize() int {
 func Getcurveorder() string {
 	buf := make([]byte, 1024)
 	// #nosec
-	n := C.mclbn_getCurveOrder((*C.char)(unsafe.Pointer(&buf[0])), C.size_t(len(buf)))
+	n := C.mclBn_getCurveOrder((*C.char)(unsafe.Pointer(&buf[0])), C.size_t(len(buf)))
 	if n == 0 {
 		panic("implementation err. size of buf is small")
 	}
@@ -67,7 +67,7 @@ func Getcurveorder() string {
 func Getfieldorder() string {
 	buf := make([]byte, 1024)
 	// #nosec
-	n := C.mclbn_getFieldOrder((*C.char)(unsafe.Pointer(&buf[0])), C.size_t(len(buf)))
+	n := C.mclBn_getFieldOrder((*C.char)(unsafe.Pointer(&buf[0])), C.size_t(len(buf)))
 	if n == 0 {
 		panic("implementation err. size of buf is small")
 	}
