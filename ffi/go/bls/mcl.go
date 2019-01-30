@@ -557,9 +557,9 @@ func MillerLoop(out *GT, x *G1, y *G2) {
 	C.mclBn_millerLoop(out.cgoPointer(), x.cgoPointer(), y.cgoPointer())
 }
 
-// cgoUint64NumToPrecompute --
-func SetUint64NumToPrecompute() int {
-	return int(C.mclBn_setUint64NumToPrecompute())
+// getUint64NumToPrecompute --
+func GetUint64NumToPrecompute() int {
+	return int(C.mclBn_getUint64NumToPrecompute())
 }
 
 // PrecomputeG2 --
