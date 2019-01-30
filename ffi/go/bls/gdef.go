@@ -1,4 +1,4 @@
-// +build swapg
+// +build !swap
 
 package bls
 
