@@ -184,7 +184,7 @@ func (sign *Sign) VerifyHash(pub *PublicKey, hash []byte) bool {
 }
 // VerifyAggregateHashes --
 func (sign *Sign) VerifyAggregateHashes(pubVec []PublicKey, hash [][]byte) bool {
-	hashByte := Getopunitsize() * 8
+	hashByte := GetOpUnitSize() * 8
 	n := len(hash)
 	h := make([]byte, n*hashByte)
 	for i := 0; i < n; i++ {
