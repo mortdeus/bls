@@ -84,7 +84,7 @@ type Fr struct{
 // cgoPointer --
 func (x *Fr) cgoPointer() (p *C.mclBnFr) {
 	// #nosec
-	return (*C.mclBnFr)(unsafe.Pointer(x.v)) 
+	return (*C.mclBnFr)(&x.v) 
 }
 
 // Clear --
