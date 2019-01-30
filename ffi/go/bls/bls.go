@@ -16,6 +16,11 @@ import "C"
 import "fmt"
 import "unsafe"
 
+type Bn struct{
+	G1 C.mclBnG1
+	G2 mclBnG2
+}
+
 // Init --
 // call this function before calling all the other operations
 // this function is not thread safe
