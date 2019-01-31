@@ -16,7 +16,7 @@ package bls
 #include <bls/bls.h>
 */
 import "C"
-import "fmt"
+//import "fmt"
 import "unsafe"
 
 /*bls.h
