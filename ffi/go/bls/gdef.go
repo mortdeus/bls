@@ -11,6 +11,7 @@ package bls
 #cgo bn384_256 LDFLAGS:-L${SRCDIR}/libs -lbls384_256
 #cgo LDFLAGS:-L${SRCDIR}/libs -lbls384
 #cgo LDFLAGS:-lcrypto -lgmp -lgmpxx -lstdc++
+#cgo CFLAGS:-DBLS_SWAP_G=0
 #include "config.h"
 #include <bls/bls.h>
 */
@@ -38,7 +39,7 @@ typedef struct {
 } blsPublicKey;
 */
 type PublicKey struct{
-	v G1 
+	v G2 
 }
 // getPointer --
 func (pub *PublicKey) getPointer() (p *C.blsPublicKey) {
@@ -95,7 +96,7 @@ func (pub *PublicKey) Set(mpk []PublicKey, id *ID) error {
 // Recover --
 func (pub *PublicKey) Recover(pubVec []PublicKey, idVec []ID) error {
 	// #nosec
-	return G1LagrangeInterpolation(&pub.v, *(*[]Fr)(unsafe.Pointer(&idVec)), *(*[]G1)(unsafe.Pointer(&pubVec)))
+	return G2LagrangeInterpolation(&pub.v, *(*[]Fr)(unsafe.Pointer(&idVec)), *(*[]G2)(unsafe.Pointer(&pubVec)))
 }
 
 /*
@@ -108,7 +109,7 @@ typedef struct {
 } blsSignature;
 */
 type Sign struct{
-	v G2
+	v G1
 }
 
 // Sign  --
@@ -215,7 +216,7 @@ BLS_DLL_API void blsGetGeneratorOfG2(blsPublicKey *pub);
 			const int elemNum = 4;
 #endif
 */
-const ElemNum = 2;
+const ElemNum = 4;
 /*
 #ifdef BLS_SWAP_G
 		size_t n = mclBnG1_getStr(&str[0], str.size(), &self_.v, ioMode);
@@ -223,13 +224,11 @@ const ElemNum = 2;
 		size_t n = mclBnG2_getStr(&str[0], str.size(), &self_.v, ioMode);
 #endif
 */
-func (bn *Bn) GetString(ioMode int) (string, int){
+func (g *G2) GetString(ioMode int) (string, uint){
 		cs := C.CString(string(make([]byte, 1028)))
-		defer C.free(unsafe.Pointer(s))
-		n := C.mclBnG1_getStr(cs, len(cs), &bn.G, ioMode)
-		return string(cs), n
-
-
+		defer C.free(unsafe.Pointer(cs))
+		n := C.mclBnG2_getStr(cs, 1028, g.cgoPointer(), C.int(ioMode))
+		return C.GoString(cs), uint(n)
 }
 /*
 
@@ -240,10 +239,10 @@ func (bn *Bn) GetString(ioMode int) (string, int){
 #endif
 */
 
-func (bn *Bn) SetString(s string, ioMode int) int{
+func (g *G2) SetString(s string, ioMode int) int{
 		cs := C.CString(s)
 		defer C.free(unsafe.Pointer(s))
-		C.mclBnG1_setStr(cs, len(s), &bn.G, ioMode)
+		C.mclBnG2_setStr(g.cgoPointer(), cs, len(s), C.int(ioMode))
 
 
 }

@@ -224,10 +224,10 @@ const ElemNum = 2;
 		size_t n = mclBnG2_getStr(&str[0], str.size(), &self_.v, ioMode);
 #endif
 */
-func (bn *Bn) GetString(ioMode int) (string, uint){
+func (g *G1) GetString(ioMode int) (string, uint){
 		cs := C.CString(string(make([]byte, 1028)))
 		defer C.free(unsafe.Pointer(cs))
-		n := C.mclBnG1_getStr(cs, 1028, bn.g1.cgoPointer(), C.int(ioMode))
+		n := C.mclBnG1_getStr(cs, 1028, g.cgoPointer(), C.int(ioMode))
 		return C.GoString(cs), uint(n)
 
 
@@ -241,8 +241,8 @@ func (bn *Bn) GetString(ioMode int) (string, uint){
 #endif
 */
 
-func (bn *Bn) SetString(s string, ioMode int) int{
+func (g *G1) SetString(s string, ioMode int) int{
 		cs := C.CString(s)
 		defer C.free(unsafe.Pointer(cs))
-		return int(C.mclBnG1_setStr(bn.g1.cgoPointer(), cs, C.ulong(len(s)), C.int(ioMode)))
+		return int(C.mclBnG1_setStr(g.cgoPointer(), cs, C.ulong(len(s)), C.int(ioMode)))
 }
