@@ -228,16 +228,16 @@ const ElemNum = 2
 		size_t n = mclBnG2_getStr(&str[0], str.size(), &self_.v, ioMode);
 #endif
 */
-func (g *G1) GetString(ioMode int) string {
-	cs := C.CString(string(make([]byte, 1028)))
-	defer C.free(unsafe.Pointer(cs))
-	n := C.mclBnG1_getStr(cs, 1028, g.cgoPointer(), C.int(ioMode))
-	if n == 0 {
-		panic("err mclBnG2_getStr")
-	}
+// func (g *G1) GetString(ioMode int) string {
+// 	cs := C.CString(string(make([]byte, 1028)))
+// 	defer C.free(unsafe.Pointer(cs))
+// 	n := C.mclBnG1_getStr(cs, 1028, g.cgoPointer(), C.int(ioMode))
+// 	if n == 0 {
+// 		panic("err mclBnG2_getStr")
+// 	}
 
-	return C.GoString(cs)
-}
+// 	return C.GoString(cs)
+// }
 
 /*
 
@@ -248,12 +248,12 @@ func (g *G1) GetString(ioMode int) string {
 #endif
 */
 
-func (g *G1) SetString(s string, ioMode int) error {
-	cs := C.CString(s)
-	defer C.free(unsafe.Pointer(cs))
-	C.mclBnG1_setStr(g.cgoPointer(), cs, C.size_t(len(s)), C.int(ioMode))
-	if err != 0 {
-		return fmt.Errorf("err mclBnG2_setStr %x", err)
-	}
-	return nil
-}
+// func (g *G1) SetString(s string, ioMode int) error {
+// 	cs := C.CString(s)
+// 	defer C.free(unsafe.Pointer(cs))
+// 	C.mclBnG1_setStr(g.cgoPointer(), cs, C.size_t(len(s)), C.int(ioMode))
+// 	if err != 0 {
+// 		return fmt.Errorf("err mclBnG2_setStr %x", err)
+// 	}
+// 	return nil
+// }

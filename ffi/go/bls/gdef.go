@@ -17,7 +17,8 @@ package bls
 */
 import "C"
 import "fmt"
-import "unsafe"
+impo
+t "unsafe"
 
 /*bls.h
 #ifdef BLS_SWAP_G
@@ -254,7 +255,7 @@ func (g *G2) GetString(ioMode int) string {
 func (g *G2) SetString(s string, ioMode int) error {
 	cs := C.CString(s)
 	defer C.free(unsafe.Pointer(s))
-	C.mclBnG2_setStr(g.cgoPointer(), cs, C.size_t(len(s)), C.int(ioMode))
+	err := C.mclBnG2_setStr(g.cgoPointer(), cs, C.size_t(len(s)), C.int(ioMode))
 	if err != 0 {
 		return fmt.Errorf("err mclBnG2_setStr %x", err)
 	}
