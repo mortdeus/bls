@@ -510,7 +510,7 @@ func test(t *testing.T, c int) {
 
 func TestMain(t *testing.T) {
 	t.Logf("GetMaxOpUnitSize() = %d\n", GetMaxOpUnitSize())
-	t.Log("CurveFp254BNb")
+	t.Log("CurveFp254BNb = %d\n", CurveFp254BNb)
 	test(t, CurveFp254BNb)
 	if GetMaxOpUnitSize() == 6 {
 		if GetFrUnitSize() == 6 {
