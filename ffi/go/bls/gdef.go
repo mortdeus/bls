@@ -17,8 +17,7 @@ package bls
 */
 import "C"
 import "fmt"
-impo
-t "unsafe"
+import "unsafe"
 
 /*bls.h
 #ifdef BLS_SWAP_G
@@ -231,17 +230,17 @@ const ElemNum = 4
 		size_t n = mclBnG2_getStr(&str[0], str.size(), &self_.v, ioMode);
 #endif
 */
-func (g *G2) GetString(ioMode int) string {
-	cs := C.CString(string(make([]byte, 1028)))
-	defer C.free(unsafe.Pointer(cs))
-	n := C.mclBnG2_getStr(cs, 1028, g.cgoPointer(), C.int(ioMode))
+// func (g *G2) GetString(ioMode int) string {
+// 	cs := C.CString(string(make([]byte, 1028)))
+// 	defer C.free(unsafe.Pointer(cs))
+// 	n := C.mclBnG2_getStr(cs, 1028, g.cgoPointer(), C.int(ioMode))
 
-	if n == 0 {
-		panic("err mclBnG2_getStr")
-	}
-	return C.GoString(cs)
+// 	if n == 0 {
+// 		panic("err mclBnG2_getStr")
+// 	}
+// 	return C.GoString(cs)
 
-}
+// }
 
 /*
 
@@ -252,13 +251,13 @@ func (g *G2) GetString(ioMode int) string {
 #endif
 */
 
-func (g *G2) SetString(s string, ioMode int) error {
-	cs := C.CString(s)
-	defer C.free(unsafe.Pointer(s))
-	err := C.mclBnG2_setStr(g.cgoPointer(), cs, C.size_t(len(s)), C.int(ioMode))
-	if err != 0 {
-		return fmt.Errorf("err mclBnG2_setStr %x", err)
-	}
-	return nil
+// func (g *G2) SetString(s string, ioMode int) error {
+// 	cs := C.CString(s)
+// 	defer C.free(unsafe.Pointer(s))
+// 	err := C.mclBnG2_setStr(g.cgoPointer(), cs, C.size_t(len(s)), C.int(ioMode))
+// 	if err != 0 {
+// 		return fmt.Errorf("err mclBnG2_setStr %x", err)
+// 	}
+// 	return nil
 
-}
+// }
