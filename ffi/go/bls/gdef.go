@@ -3,11 +3,11 @@
 package bls
 
 /*
-#cgo bn256 CFLAGS:-DMCLBN_FP_UNIT_SIZE=4 -DMCLBN_COMPILED_TIME_VAR=144 
-#cgo bn256 LDFLAGS:-L${SRCDIR}/libs -lbls256 
-#cgo bn384 CFLAGS:-DMCLBN_FP_UNIT_SIZE=6 -DMCLBN_COMPILED_TIME_VAR=166  
+#cgo bn256 CFLAGS:-DMCLBN_FP_UNIT_SIZE=4 -DMCLBN_COMPILED_TIME_VAR=144
+#cgo bn256 LDFLAGS:-L${SRCDIR}/libs -lbls256
+#cgo bn384 CFLAGS:-DMCLBN_FP_UNIT_SIZE=6 -DMCLBN_COMPILED_TIME_VAR=166
 #cgo bn384 LDFLAGS:-L${SRCDIR}/libs -lbls384
-#cgo bn384_256 CFLAGS:-L${SRCDIR}/libs -DMCLBN_FP_UNIT_SIZE=6 -DMCLBN_FR_UNIT_SIZE=4 -DMCLBN_COMPILED_TIME_VAR=146  
+#cgo bn384_256 CFLAGS:-L${SRCDIR}/libs -DMCLBN_FP_UNIT_SIZE=6 -DMCLBN_FR_UNIT_SIZE=4 -DMCLBN_COMPILED_TIME_VAR=146
 #cgo bn384_256 LDFLAGS:-L${SRCDIR}/libs -lbls384_256
 #cgo LDFLAGS:-L${SRCDIR}/libs -lbls384
 #cgo LDFLAGS:-lcrypto -lgmp -lgmpxx -lstdc++
@@ -16,14 +16,14 @@ package bls
 #include <bls/bls.h>
 */
 import "C"
-
+import "fmt"
 import "unsafe"
 
 /*bls.h
 #ifdef BLS_SWAP_G
-	
+
 	//	error if BLS_SWAP_G is inconsistently used between library and exe
-	
+
 	#undef MCLBN_COMPILED_TIME_VAR
 	#define )
 #endif
@@ -38,9 +38,10 @@ typedef struct {
 #endif
 } blsPublicKey;
 */
-type PublicKey struct{
-	v G2 
+type PublicKey struct {
+	v G2
 }
+
 // getPointer --
 func (pub *PublicKey) getPointer() (p *C.blsPublicKey) {
 	// #nosec
@@ -108,12 +109,11 @@ typedef struct {
 #endif
 } blsSignature;
 */
-type Sign struct{
+type Sign struct {
 	v G1
 }
 
 // Sign  --
-
 
 // getPointer --
 func (sign *Sign) getPointer() (p *C.blsSignature) {
@@ -155,6 +155,7 @@ func (sign *Sign) SetHexString(s string) error {
 func (sign *Sign) IsEqual(rhs *Sign) bool {
 	return sign.v.IsEqual(&rhs.v)
 }
+
 // Add --
 func (sign *Sign) Add(rhs *Sign) {
 	C.blsSignatureAdd(sign.getPointer(), rhs.getPointer())
@@ -177,11 +178,13 @@ func (sign *Sign) Verify(pub *PublicKey, m string) bool {
 func (sign *Sign) VerifyPop(pub *PublicKey) bool {
 	return C.blsVerifyPop(sign.getPointer(), pub.getPointer()) == 1
 }
+
 // VerifyHash --
 func (sign *Sign) VerifyHash(pub *PublicKey, hash []byte) bool {
 	// #nosec
 	return C.blsVerifyHash(sign.getPointer(), pub.getPointer(), unsafe.Pointer(&hash[0]), C.size_t(len(hash))) == 1
 }
+
 // VerifyAggregateHashes --
 func (sign *Sign) VerifyAggregateHashes(pubVec []PublicKey, hash [][]byte) bool {
 	hashByte := GetOpUnitSize() * 8
@@ -193,16 +196,18 @@ func (sign *Sign) VerifyAggregateHashes(pubVec []PublicKey, hash [][]byte) bool 
 	}
 	return C.blsVerifyAggregatedHashes(sign.getPointer(), pubVec[0].getPointer(), unsafe.Pointer(&h[0]), C.size_t(hashByte), C.size_t(n)) == 1
 }
+
 /*
 #ifdef BLS_SWAP_G
 // get a generator of G1
 BLS_DLL_API void blsGetGeneratorOfG1(blsPublicKey *pub);
 #else
 */
-func GetGeneratorOfG(pkey *PublicKey){
+func GetGeneratorOfG(pkey *PublicKey) {
 	panic("unimplemented")
 	//C.blsGetGeneratorOfG1(pkey.v.cgoPointer())
 }
+
 /*
 // get a generator of G2
 BLS_DLL_API void blsGetGeneratorOfG2(blsPublicKey *pub);
@@ -216,7 +221,8 @@ BLS_DLL_API void blsGetGeneratorOfG2(blsPublicKey *pub);
 			const int elemNum = 4;
 #endif
 */
-const ElemNum = 4;
+const ElemNum = 4
+
 /*
 #ifdef BLS_SWAP_G
 		size_t n = mclBnG1_getStr(&str[0], str.size(), &self_.v, ioMode);
@@ -224,12 +230,18 @@ const ElemNum = 4;
 		size_t n = mclBnG2_getStr(&str[0], str.size(), &self_.v, ioMode);
 #endif
 */
-func (g *G2) GetString(ioMode int) (string, uint){
-		cs := C.CString(string(make([]byte, 1028)))
-		defer C.free(unsafe.Pointer(cs))
-		n := C.mclBnG2_getStr(cs, 1028, g.cgoPointer(), C.int(ioMode))
-		return C.GoString(cs), uint(n)
+func (g *G2) GetString(ioMode int) string {
+	cs := C.CString(string(make([]byte, 1028)))
+	defer C.free(unsafe.Pointer(cs))
+	n := C.mclBnG2_getStr(cs, 1028, g.cgoPointer(), C.int(ioMode))
+
+	if n == 0 {
+		panic("err mclBnG2_getStr")
+	}
+	return C.GoString(cs)
+
 }
+
 /*
 
 #ifdef BLS_SWAP_G
@@ -239,10 +251,13 @@ func (g *G2) GetString(ioMode int) (string, uint){
 #endif
 */
 
-func (g *G2) SetString(s string, ioMode int) int{
-		cs := C.CString(s)
-		defer C.free(unsafe.Pointer(s))
-		C.mclBnG2_setStr(g.cgoPointer(), cs, len(s), C.int(ioMode))
-
+func (g *G2) SetString(s string, ioMode int) error {
+	cs := C.CString(s)
+	defer C.free(unsafe.Pointer(s))
+	C.mclBnG2_setStr(g.cgoPointer(), cs, C.size_t(len(s)), C.int(ioMode))
+	if err != 0 {
+		return fmt.Errorf("err mclBnG2_setStr %x", err)
+	}
+	return nil
 
 }

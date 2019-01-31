@@ -6,7 +6,7 @@ package bls
 #cgo bn384_256 CFLAGS:-DMCLBN_FP_UNIT_SIZE=6 -DMCLBN_FR_UNIT_SIZE=4
 #include "config.h"
 // #cgo LDFLAGS: -L${SRCDIR}/libs -lmcl
-#include <mcl/bn.h> 
+#include <mcl/bn.h>
 
 */
 import "C"
@@ -76,7 +76,7 @@ func GetFieldOrder() string {
 
 // Fr --
 
-type Fr struct{
+type Fr struct {
 	v C.mclBnFr
 }
 
@@ -88,10 +88,10 @@ func (x *Fr) cgoPointer() (p *C.mclBnFr) {
 }
 
 // Clear --
-// BUG(mortedus): memory unsafe 
+// BUG(mortedus): memory unsafe
 func (x *Fr) Clear() {
 	// #nosec
-	C.mclBnFr_clear(x.cgoPointer()) 
+	C.mclBnFr_clear(x.cgoPointer())
 }
 
 // SetInt64 --
@@ -123,7 +123,6 @@ func (x *Fr) Deserialize(buf []byte) error {
 	}
 	return nil
 }
-
 
 // SetLittleEndian --
 func (x *Fr) SetLittleEndian(buf []byte) error {
@@ -327,7 +326,6 @@ func G1MulCT(out *G1, x *G1, y *Fr) {
 
 // G2 --
 type G2 C.mclBnG2
-
 
 // cgoPointer --
 func (x *G2) cgoPointer() (p *C.mclBnG2) {

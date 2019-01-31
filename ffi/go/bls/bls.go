@@ -19,9 +19,9 @@ import "fmt"
 import "unsafe"
 import "io"
 
-type Bn struct{
-		g1 G1
-		g2 G2
+type Bn struct {
+	g1 G1
+	g2 G2
 }
 
 // Init --
@@ -186,12 +186,6 @@ func (sec *SecretKey) GetPop() (sign *Sign) {
 	return sign
 }
 
-
-
-
-
-
-
 // GetPublicKey --
 func (sec *SecretKey) GetPublicKey() (pub *PublicKey) {
 	pub = new(PublicKey)
@@ -207,7 +201,6 @@ func (sec *SecretKey) Sign(m string) (sign *Sign) {
 	C.blsSign(sign.getPointer(), sec.getPointer(), unsafe.Pointer(&buf[0]), C.size_t(len(buf)))
 	return sign
 }
-
 
 // DHKeyExchange --
 func DHKeyExchange(sec *SecretKey, pub *PublicKey) (out PublicKey) {
@@ -243,15 +236,12 @@ func (sec *SecretKey) SignHash(hash []byte) (sign *Sign) {
 	}
 }
 
-
 func Min(x, y int) int {
 	if x < y {
 		return x
 	}
 	return y
 }
-
-
 
 ///
 
