@@ -135,9 +135,9 @@ test_go:
 	$(MAKE) test_go384
 	$(MAKE) test_go384_256
 test_go_swap:
-	$(MAKE) test_go256
-	$(MAKE) test_go384
-	$(MAKE) test_go384_256
+	$(MAKE) test_go256_swap
+	$(MAKE) test_go384_swap
+	$(MAKE) test_go384_256_swap
 
 EMCC_OPT=-I./include -I./src -I../mcl/include -I./ -Wall -Wextra
 EMCC_OPT+=-O3 -DNDEBUG
