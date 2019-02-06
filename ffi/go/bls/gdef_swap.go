@@ -3,17 +3,17 @@
 package bls
 
 /*
-#cgo bn256 CFLAGS:-DMCLBN_FP_UNIT_SIZE=4 -DMCLBN_COMPILED_TIME_VAR=144
-#cgo bn256 LDFLAGS:-L${SRCDIR}/libs -lbls256
-#cgo bn384 CFLAGS:-DMCLBN_FP_UNIT_SIZE=6 -DMCLBN_COMPILED_TIME_VAR=166 -DBLS_SWAP_G=1
-#cgo bn384 LDFLAGS:-L${SRCDIR}/libs -lbls384
-#cgo bn384_256 CFLAGS:-DMCLBN_FP_UNIT_SIZE=6 -DMCLBN_FR_UNIT_SIZE=4 -DMCLBN_COMPILED_TIME_VAR=146 -DBLS_SWAP_G
-#cgo bn384_256 LDFLAGS:-L${SRCDIR}/libs -lbls384_256
-#cgo CFLAGS:-DBLS_SWAP_G=1
-#cgo LDFLAGS:-L${SRCDIR}/libs -lbls384
+#cgo bn256 CFLAGS:-DMCLBN_FP_UNIT_SIZE=4
+#cgo bn256 LDFLAGS:-lbls256
+#cgo bn384 CFLAGS:-DMCLBN_FP_UNIT_SIZE=6
+#cgo bn384 LDFLAGS:-lbls384
+#cgo bn384_256 CFLAGS:-DMCLBN_FP_UNIT_SIZE=6 -DMCLBN_FR_UNIT_SIZE=4
+#cgo bn384_256 LDFLAGS:-lbls384_256
+#cgo LDFLAGS:-lbls384
 #cgo LDFLAGS:-lcrypto -lgmp -lgmpxx -lstdc++
-#include "config.h"
-#include <bls/bls.h>
+##cgo CFLAGS:-DBLS_SWAP_G=1
+##include "config.h"
+##include <bls/bls.h>
 */
 import "C"
 //import "fmt"

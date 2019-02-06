@@ -3,13 +3,13 @@
 package bls
 
 /*
-#cgo bn256 CFLAGS:-DMCLBN_FP_UNIT_SIZE=4 -DMCLBN_COMPILED_TIME_VAR=144
-#cgo bn256 LDFLAGS:-L${SRCDIR}/libs -lbls256
-#cgo bn384 CFLAGS:-DMCLBN_FP_UNIT_SIZE=6 -DMCLBN_COMPILED_TIME_VAR=166
-#cgo bn384 LDFLAGS:-L${SRCDIR}/libs -lbls384
-#cgo bn384_256 CFLAGS:-L${SRCDIR}/libs -DMCLBN_FP_UNIT_SIZE=6 -DMCLBN_FR_UNIT_SIZE=4 -DMCLBN_COMPILED_TIME_VAR=146
-#cgo bn384_256 LDFLAGS:-L${SRCDIR}/libs -lbls384_256
-#cgo LDFLAGS:-L${SRCDIR}/libs -lbls384
+#cgo bn256 CFLAGS:-DMCLBN_FP_UNIT_SIZE=4
+#cgo bn256 LDFLAGS:-lbls256
+#cgo bn384 CFLAGS:-DMCLBN_FP_UNIT_SIZE=6
+#cgo bn384 LDFLAGS:-lbls384
+#cgo bn384_256 CFLAGS:-DMCLBN_FP_UNIT_SIZE=6 -DMCLBN_FR_UNIT_SIZE=4
+#cgo bn384_256 LDFLAGS:-lbls384_256
+#cgo LDFLAGS:-lbls384
 #cgo LDFLAGS:-lcrypto -lgmp -lgmpxx -lstdc++
 #cgo CFLAGS:-DBLS_SWAP_G=0
 #include "config.h"
@@ -199,20 +199,20 @@ func (sign *Sign) VerifyAggregateHashes(pubVec []PublicKey, hash [][]byte) bool 
 
 /*
 #ifdef BLS_SWAP_G
-// get a generator of G1
-BLS_DLL_API void blsGetGeneratorOfG1(blsPublicKey *pub);
+	// get a generator of G1
+	BLS_DLL_API void blsGetGeneratorOfG1(blsPublicKey *pub);
 #else
+	// get a generator of G2
+	BLS_DLL_API void blsGetGeneratorOfG2(blsPublicKey *pub);
+#endif
+*/
+
 */
 func GetGeneratorOfG(pkey *PublicKey) {
 	panic("unimplemented")
 	//C.blsGetGeneratorOfG1(pkey.v.cgoPointer())
 }
 
-/*
-// get a generator of G2
-BLS_DLL_API void blsGetGeneratorOfG2(blsPublicKey *pub);
-#endif
-*/
 
 /* bls.hpp
 #ifdef BLS_SWAP_G
